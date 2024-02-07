@@ -97,8 +97,5 @@ class TestUserRegNegative(BaseCase):
                     response.content}
 
 
-"""
-            assert response.content.decode('utf-8') == f'The following required params are missed: username', {response.content}
-            assert response.content.decode('utf-8') == f'The following required params are missed: firstname', {response.content}
-"""
+
 
