@@ -13,6 +13,10 @@ class Assertions:
         assert response_as_dict[name] == expected_value, error_message
 
     @staticmethod
+    def assert_code_status(response: Response,expected_status_code):
+        assert response.status_code == expected_status_code, f"Unexpected status code! Expected:{expected_status_code}. Actual: {response.status_code}"
+
+    @staticmethod
     def assert_json_has_not_key(response: Response, name):
         try:
             response_as_dict = response.json()
