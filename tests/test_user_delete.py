@@ -2,8 +2,11 @@ import requests
 import time
 from lib.base_case import BaseCase
 from lib.assertions import Assertions
+import allure
 
+@allure.epic("Delete cases")
 class TestUserDelete(BaseCase):
+    @allure.description("This test delete known user")
     def test_delete_known_user(self):
        #LOGIN
        data = {
@@ -27,6 +30,7 @@ class TestUserDelete(BaseCase):
        Assertions.assert_code_status( response3,400)
        assert response3.content.decode('utf-8') == 'Please, do not delete test users with ID 1, 2, 3, 4 or 5.',"You try delete protected users       "
 
+    @allure.description("This test delete just created user")
     def test_delete_just_created_user(self):
         #REGISTER
         register_data = self.prepare_registration_data()
@@ -71,6 +75,8 @@ class TestUserDelete(BaseCase):
         Assertions.assert_code_status(response4,404)
         assert response3.content.decode('utf-8') == 'User not found', f"You delete users '{user_id}'"
 
+    @allure.description("This test try to delete auth user to other user")
+    @allure
     def test_delete_other_user(self):
         register_data = self.prepare_registration_data()
         name_begin = 'first'

@@ -2,6 +2,7 @@ import requests
 import pytest
 from lib.base_case import BaseCase
 from lib.assertions import Assertions
+import allure
 
 class TestUserRegNegative(BaseCase):
     k=1
@@ -22,6 +23,8 @@ class TestUserRegNegative(BaseCase):
          'email': "vinkotov@example.com"
          },
     ]
+
+    @allure.description("This test regisration user with email without symbol @")
     def test_creat_user_without_dog(self):
         email = 'without_dog'
         data = {
@@ -37,6 +40,7 @@ class TestUserRegNegative(BaseCase):
         assert response.status_code == 400, f"Unexpected status code {response.status_code}"
         assert response.content.decode('utf-8') == f'Invalid email format', {response.content}
 
+    @allure.description("This test regisration user with short name")
     def test_creat_user_one_symbol(self):
 
         data = {
@@ -51,6 +55,8 @@ class TestUserRegNegative(BaseCase):
 
         assert response.status_code == 400, f"Unexpected status code {response.status_code}"
         assert response.content.decode('utf-8') == f"The value of 'username' field is too short", {response.content}
+
+    @allure.description("This test regisration user with long name more 255 symbols")
     def test_creat_user_long_name(self):
         long_str = "qwertyuiopasdfghjklzxcvbnm\
                     qwertyuiopasdfghjklzxcvbnm\
@@ -76,6 +82,7 @@ class TestUserRegNegative(BaseCase):
         assert response.status_code == 400, f"Unexpected status code {response.status_code}"
         assert response.content.decode('utf-8') == f"The value of 'username' field is too long", {response.content}
 
+    @allure.description("This test regisration user without parameters")
     @pytest.mark.parametrize('condition', exclude_params)
     def test_creat_user_without_param(self,condition):
             response = requests.post("https://playground.learnqa.ru/api/user/", data=condition)

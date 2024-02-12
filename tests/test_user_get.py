@@ -1,8 +1,11 @@
 import requests
 from lib.base_case import BaseCase
 from lib.assertions import Assertions
+import allure
 
+@allure.epic("Requests cases")
 class TestUserGet(BaseCase):
+    @allure.description("This test request no auth user get data ")
     def test_get_user_details_not_auth(selfself):
         response = requests.get("https://playground.learnqa.ru/api/user/2")
 
@@ -11,6 +14,7 @@ class TestUserGet(BaseCase):
         Assertions.assert_json_has_not_key(response, "firstName")
         Assertions.assert_json_has_not_key(response, "lastName")
 
+    @allure.description("This test request auth user get data himself")
     def test_get_user_details_auth_as_same_user(self):
         data = {
             'email': 'vinkotov@example.com',
@@ -31,6 +35,7 @@ class TestUserGet(BaseCase):
         Assertions.assert_json_has_key(response2, "firstName")
         Assertions.assert_json_has_key(response2, "lastName")
 
+    @allure.description("This test request auth user get data another")
     def test_get_user_details_auth_as_another_user(self):
          data = {
                 'email': 'vinkotov@example.com',
